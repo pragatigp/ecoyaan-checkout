@@ -14,16 +14,18 @@ export default function Cart({ cartData }) {
   return (
     <div className="p-10">
 
-      <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
+      <h1 className="text-3xl font-bold mb-6">
+        Your Cart
+      </h1>
 
       {cartData.cartItems.map((item) => (
         <CartItem key={item.product_id} item={item} />
       ))}
 
-      <OrderSummary 
-  subtotal={subtotal} 
-  shipping={cartData.shipping_fee} 
-/>
+      <OrderSummary
+        subtotal={subtotal}
+        shipping={cartData.shipping_fee}
+      />
 
       <Link href="/shipping">
         <button className="mt-6 bg-green-600 text-white px-6 py-3 rounded">
@@ -37,7 +39,10 @@ export default function Cart({ cartData }) {
 
 export async function getServerSideProps(context) {
 
-  const res = await fetch("https://" + context.req.headers.host + "/api/cart")
+  const protocol = context.req.headers["x-forwarded-proto"] || "http"
+  const host = context.req.headers.host
+
+  const res = await fetch(`${protocol}://${host}/api/cart`)
   const data = await res.json()
 
   return {
