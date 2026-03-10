@@ -35,7 +35,7 @@ export default function Cart({ cartData }) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
 
   const res = await fetch("https://" + context.req.headers.host + "/api/cart")
   const data = await res.json()
